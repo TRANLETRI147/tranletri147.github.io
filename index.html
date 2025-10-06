@@ -1,8 +1,191 @@
-<html> 
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-  <title> WEBSITE CỦA TÔI </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Tình Trung Thu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #FFB6C1; /* Màu hồng nhạt */
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Ẩn scroll để hiệu ứng rơi đẹp hơn */
+            color: #333; /* Màu chữ đen để nổi bật trên nền hồng */
+        }
+
+        /* Container chính ở giữa màn hình */
+        .container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFF8DC; /* Màu nền thư nhạt, như giấy */
+            padding: 30px;
+            border: 3px solid #FF69B4; /* Viền hồng đậm */
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Bóng đổ để nổi bật */
+            z-index: 10; /* Đảm bảo ở trên hiệu ứng trái tim */
+            max-width: 400px;
+            width: 90%;
+        }
+
+        /* Hộp thoại nhập mật khẩu */
+        .password-form {
+            display: block;
+        }
+
+        .password-form h2 {
+            color: #FF1493; /* Màu hồng đậm cho tiêu đề */
+            margin-bottom: 20px;
+        }
+
+        .password-form input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #FF69B4;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .password-form button {
+            background-color: #FF69B4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .password-form button:hover {
+            background-color: #FF1493;
+        }
+
+        /* Nội dung thư (ẩn ban đầu) */
+        .letter-content {
+            display: none;
+            background-color: #FFF8DC;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .letter-content h2 {
+            color: #FF1493;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .letter-content p {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #333;
+            text-align: justify; /* Căn đều chữ */
+        }
+
+        .letter-content .heart {
+            color: #FF0000;
+            font-size: 24px;
+            margin-left: 5px;
+        }
+
+        /* Hiệu ứng trái tim rơi */
+        .falling-heart {
+            position: absolute;
+            color: #FF0000; /* Màu đỏ */
+            font-size: 20px;
+            pointer-events: none; /* Không tương tác */
+            z-index: 1;
+            animation: fall linear infinite;
+            left: 0;
+            opacity: 0.7;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Tạo trái tim bằng CSS (sử dụng ký tự ♥) */
+        .falling-heart::before {
+            content: '♥';
+        }
+    </style>
 </head>
 <body>
-<h1> Chào mừng bạn đến với website của tôi </h1>
+    <!-- Container chính cho bức thư -->
+    <div class="container">
+        <!-- Hộp thoại nhập mật khẩu -->
+        <div class="password-form" id="passwordForm">
+            <h2>🔒 Mở Bức Thư Tình Trung Thu</h2>
+            <p>Nhập mật khẩu để mở thư (gợi ý: "ngaydautiennhantin"):</p>
+            <input type="password" id="passwordInput" placeholder="Nhập mật khẩu...">
+            <br>
+            <button onclick="checkPassword()">Mở Thư</button>
+        </div>
+
+        <!-- Nội dung bức thư (ẩn ban đầu) -->
+        <div class="letter-content" id="letterContent">
+            <h2>💌 Thư Tình Trung Thu 💌</h2>
+            <p>Chào em,<br>
+            Chúc em Trung thu vui vẻ, xinh đẹp, tươi tắn hơn cả chị Hằng<span class="heart">♥</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Mật khẩu đúng (có thể thay đổi)
+        const correctPassword = "11082025";
+
+        // Function kiểm tra mật khẩu
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            if (input === correctPassword) {
+                document.getElementById('passwordForm').style.display = 'none';
+                document.getElementById('letterContent').style.display = 'block';
+            } else {
+                alert('Mật khẩu sai! Hãy thử lại. (Gợi ý: "trungthu")');
+                document.getElementById('passwordInput').value = ''; // Xóa input
+            }
+        }
+
+        // Hiệu ứng trái tim rơi
+        function createFallingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'falling-heart';
+            heart.style.left = Math.random() * 100 + 'vw'; // Vị trí ngẫu nhiên ngang
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's'; // Thời gian rơi ngẫu nhiên 2-5s
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px'; // Kích thước ngẫu nhiên
+            document.body.appendChild(heart);
+
+            // Xóa heart sau khi animation kết thúc
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Tạo trái tim rơi liên tục
+        setInterval(createFallingHeart, 300); // Mỗi 300ms tạo một trái tim mới
+
+        // Tạo vài trái tim ban đầu
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createFallingHeart, i * 500);
+        }
+
+        // Cho phép Enter để submit mật khẩu
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
 </body>
 </html>
